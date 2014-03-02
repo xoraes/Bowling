@@ -1,4 +1,4 @@
-package org.nick.sample.bowling;
+package org.nick.sample.bowling.exception;
 
 /**
  * Created by ndhupia on 2/22/14.

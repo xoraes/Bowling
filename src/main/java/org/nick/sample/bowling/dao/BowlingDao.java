@@ -1,7 +1,8 @@
-package org.nick.sample.bowling;
+package org.nick.sample.bowling.dao;
 
-import java.util.Collection;
-import java.util.List;
+import org.nick.sample.bowling.BowlingGame;
+import org.nick.sample.bowling.exception.BowlingDaoException;
+
 import java.util.Map;
 
 /**

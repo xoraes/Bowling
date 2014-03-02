@@ -1,20 +1,17 @@
 package org.nick.sample.bowling;
-import com.google.gson.Gson;
+import org.nick.sample.bowling.dao.BowlingDao;
+import org.nick.sample.bowling.dao.BowlingDaoImpl;
+import org.nick.sample.bowling.exception.BowlingAppException;
+import org.nick.sample.bowling.exception.BowlingDaoException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.bind.JAXBElement;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

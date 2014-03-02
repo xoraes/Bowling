@@ -1,4 +1,6 @@
-package org.nick.sample.bowling;
+package org.nick.sample.bowling.exception;
+
+import org.nick.sample.bowling.ErrorResponse;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
