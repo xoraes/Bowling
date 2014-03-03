@@ -2,19 +2,22 @@ package org.nick.sample.bowling;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ndhupia
- * Date: 2/22/14
- * Time: 8:50 AM
- * To change this template use File | Settings | File Templates.
+ * <p>This class represents a bowling game object</p>
  */
 @XmlRootElement
 public final class BowlingGame {
 
     private Integer bowlingGameId;
+    @XmlElement(nillable = true)
+    private Map<String, Map<Integer, Integer[]>> playersScoresMap;
+
+    public BowlingGame() {
+        playersScoresMap = new HashMap<String, Map<Integer, Integer[]>>();
+    }
 
     public Map<String, Map<Integer, Integer[]>> getPlayersScoresMap() {
         return playersScoresMap;
@@ -22,14 +25,6 @@ public final class BowlingGame {
 
     public void setPlayersScoresMap(Map<String, Map<Integer, Integer[]>> playersScoresMap) {
         this.playersScoresMap = playersScoresMap;
-    }
-
-    @XmlElement(nillable = true)
-    private Map<String, Map<Integer, Integer[]>> playersScoresMap;
-
-
-    public BowlingGame() {
-        playersScoresMap = new HashMap<String, Map<Integer, Integer[]>>();
     }
 
     @Override

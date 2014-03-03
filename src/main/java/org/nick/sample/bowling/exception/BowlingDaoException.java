@@ -1,8 +1,5 @@
 package org.nick.sample.bowling.exception;
 
-/**
- * Created by ndhupia on 2/22/14.
- */
 public class BowlingDaoException extends Exception {
     public BowlingDaoException() {
         super();

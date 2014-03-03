@@ -26,6 +26,10 @@ public class BowlingAppExceptionMapper implements
             return Response.status(Response.Status.NOT_FOUND).
                     entity(errorResponse).type(MediaType.APPLICATION_JSON).build();
         }
+        if (bowingAppException.getErrorId() == 400) {
+            return Response.status(Response.Status.BAD_REQUEST).
+                    entity(errorResponse).type(MediaType.APPLICATION_JSON).build();
+        }
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
                 entity(errorResponse).type(MediaType.APPLICATION_JSON).build();
 

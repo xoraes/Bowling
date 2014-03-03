@@ -14,6 +14,7 @@ public class BowlingAppException extends Exception {
     public BowlingAppException(String message) {
         super(message);
     }
+
     public BowlingAppException(int errorId, String message) {
         super(message);
         setErrorId(errorId);
