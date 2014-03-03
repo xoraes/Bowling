@@ -2,6 +2,7 @@ package org.nick.sample.bowling;
 
 import org.nick.sample.bowling.exception.BowlingAppException;
 import org.nick.sample.bowling.exception.BowlingDaoException;
+import org.nick.sample.bowling.model.BowlingGame;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;

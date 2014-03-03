@@ -1,4 +1,4 @@
-package org.nick.sample.bowling;
+package org.nick.sample.bowling.model;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

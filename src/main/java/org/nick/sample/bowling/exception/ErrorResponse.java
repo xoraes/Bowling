@@ -1,7 +1,10 @@
-package org.nick.sample.bowling;
+package org.nick.sample.bowling.exception;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * This class represents the error object sent to client
+ */
 @XmlRootElement
 public class ErrorResponse {
 

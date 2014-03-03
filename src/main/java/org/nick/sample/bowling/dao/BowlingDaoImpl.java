@@ -1,7 +1,6 @@
 package org.nick.sample.bowling.dao;
 
-import org.nick.sample.bowling.BowlingGame;
-import org.nick.sample.bowling.BowlingHelper;
+import org.nick.sample.bowling.model.BowlingGame;
 import org.nick.sample.bowling.exception.BowlingDaoException;
 
 import java.util.ArrayList;
@@ -36,9 +35,17 @@ public class BowlingDaoImpl implements BowlingDao {
     @Override
     public void addPlayerToGame(Integer bowlingGameId, String player) throws BowlingDaoException {
         checkGameExists(bowlingGameId);
-        checkPlayerExist(bowlingGameId, player);
+        checkPlayerDoesNotExist(bowlingGameId, player);
         BowlingGame bg = getGame(bowlingGameId);
         bg.addPlayer(player);
+    }
+
+    private void checkPlayerDoesNotExist(Integer bowlingGameId, String player) throws BowlingDaoException{
+        BowlingGame bg = gameData.get(bowlingGameId);
+        if (null != bg.getPlayersScoresMap() && bg.getPlayersScoresMap().containsKey(player)) {
+            throw new BowlingDaoException("Player  already exists: " + player);
+        }
+
     }
 
     @Override

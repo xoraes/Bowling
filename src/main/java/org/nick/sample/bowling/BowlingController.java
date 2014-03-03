@@ -1,9 +1,9 @@
 package org.nick.sample.bowling;
-
 import org.nick.sample.bowling.dao.BowlingDao;
 import org.nick.sample.bowling.dao.BowlingDaoFactory;
 import org.nick.sample.bowling.exception.BowlingAppException;
 import org.nick.sample.bowling.exception.BowlingDaoException;
+import org.nick.sample.bowling.model.BowlingGame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>This class contains business logic and process requests from the rest calls. It has
- * access to the dao to perform CRUD operations</p>
+ * <p>This class contains business logic and process requests from the rest calls. I
+ * It has access to the dao to perform CRUD operations</p>
  */
 public class BowlingController {
 

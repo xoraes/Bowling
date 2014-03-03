@@ -3,7 +3,7 @@ package org.nick.sample.bowling;
 import org.nick.sample.bowling.exception.BowlingAppException;
 
 /**
- * Supports a few helper methods that help with business logic
+ * Contains a few helper methods that help with business logic
  */
 public class BowlingHelper {
     public static void validateFrameId(Integer frameId) throws BowlingAppException {
