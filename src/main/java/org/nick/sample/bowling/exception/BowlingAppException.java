@@ -4,7 +4,6 @@ package org.nick.sample.bowling.exception;
  * Created by ndhupia on 2/22/14.
  */
 public class BowlingAppException extends Exception {
-    private static final long serialVersionUID = 4351720088030656859L;
     private int errorId;
 
     public BowlingAppException() {

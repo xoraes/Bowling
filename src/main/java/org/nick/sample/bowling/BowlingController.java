@@ -1,8 +1,9 @@
 package org.nick.sample.bowling;
+
 import org.nick.sample.bowling.dao.BowlingDao;
 import org.nick.sample.bowling.dao.BowlingDaoFactory;
 import org.nick.sample.bowling.exception.BowlingAppException;
-import org.nick.sample.bowling.exception.BowlingDaoException;
+import org.nick.sample.bowling.exception.BowlingInvalidDataException;
 import org.nick.sample.bowling.model.BowlingGame;
 
 import java.util.ArrayList;
@@ -11,43 +12,46 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>This class contains business logic and process requests from the rest calls. I
+ * <p>This class contains business logic and process requests from the rest calls.
  * It has access to the dao to perform CRUD operations</p>
  */
 public class BowlingController {
-
+    //TODO: ideally should use dependency injection (Spring or Guice) here instead of factory
     private static BowlingDao dao = BowlingDaoFactory.getDao();
 
-    public static void addPlayerToGame(Integer bowlingGameId, String player) throws BowlingDaoException {
+    public static void addPlayerToGame(Integer bowlingGameId, String player)
+            throws BowlingInvalidDataException, BowlingAppException {
         dao.addPlayerToGame(bowlingGameId, player);
     }
 
-    public static void deletePlayerFromGame(Integer bowlingGameId, String playerId) throws BowlingDaoException {
+    public static void deletePlayerFromGame(Integer bowlingGameId, String playerId)
+            throws BowlingInvalidDataException, BowlingAppException {
         dao.deletePlayerFromGame(bowlingGameId, playerId);
     }
 
-    public static void addPlayerScore(Integer bowlingGameId, String player, Integer frameId, Integer[] playerFrame) throws BowlingDaoException, BowlingAppException {
+    public static void addPlayerScore(Integer bowlingGameId, String player, Integer frameId, Integer[] playerFrame)
+            throws BowlingInvalidDataException, BowlingAppException {
         BowlingHelper.validateFrame(frameId, playerFrame);
         dao.addPlayerScore(bowlingGameId, player, frameId, playerFrame);
     }
 
-    public static void updateBowlingGame(BowlingGame bowlingGame) throws BowlingDaoException {
+    public static void updateBowlingGame(BowlingGame bowlingGame) throws BowlingInvalidDataException, BowlingAppException {
         dao.updateBowlingGame(bowlingGame);
     }
 
-    public static int createGame() throws BowlingDaoException {
+    public static int createGame() throws BowlingAppException {
         return dao.createGame();
     }
 
-    public static BowlingGame getGame(Integer id) throws BowlingDaoException {
+    public static BowlingGame getGame(Integer id) throws BowlingInvalidDataException, BowlingAppException {
         return dao.getGame(id);
     }
 
-    public static void deleteGame(Integer id) throws BowlingDaoException {
+    public static void deleteGame(Integer id) throws BowlingInvalidDataException, BowlingAppException {
         dao.deleteGame(id);
     }
 
-    public static Map<String, Integer> getLiveScoresForGame(Integer bowlingGameId) throws BowlingDaoException {
+    public static Map<String, Integer> getLiveScoresForGame(Integer bowlingGameId) throws BowlingInvalidDataException, BowlingAppException {
         dao.checkGameExists(bowlingGameId);
         Map<String, Map<Integer, Integer[]>> scoreMap = dao.getGame(bowlingGameId).getPlayersScoresMap();
 

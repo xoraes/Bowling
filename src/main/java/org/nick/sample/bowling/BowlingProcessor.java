@@ -1,7 +1,7 @@
 package org.nick.sample.bowling;
 
 import org.nick.sample.bowling.exception.BowlingAppException;
-import org.nick.sample.bowling.exception.BowlingDaoException;
+import org.nick.sample.bowling.exception.BowlingInvalidDataException;
 import org.nick.sample.bowling.model.BowlingGame;
 
 import javax.ws.rs.*;
@@ -28,10 +28,10 @@ public class BowlingProcessor {
     @Path("/healthcheck")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response healthCheck() throws BowlingAppException {
+    public Response healthCheck() throws BowlingInvalidDataException {
         String success = uriInfo.getQueryParameters().getFirst("success");
         if (success != null && success.equalsIgnoreCase("false")) {
-            throw new BowlingAppException(500, "simulating failure");
+            throw new BowlingInvalidDataException("simulating failure");
         }
         return Response.ok("{\"success\": \"true\"}").build();
     }
@@ -39,65 +39,51 @@ public class BowlingProcessor {
     @PUT
     @Path("/game/{id}/player")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addPlayerToGame(@PathParam("id") Integer bowlingGameId) throws BowlingAppException {
+    public Response addPlayerToGame(@PathParam("id") Integer bowlingGameId) throws BowlingInvalidDataException, BowlingAppException {
         String player = uriInfo.getQueryParameters().getFirst("username");
         if (null == player) {
-            throw new BowlingAppException(400, "No player username specified. See api for details");
+            throw new BowlingInvalidDataException("No player username specified. See api for details");
         }
-        try {
-            BowlingController.addPlayerToGame(bowlingGameId, player);
-        } catch (BowlingDaoException e) {
-            throw new BowlingAppException(400, e.getMessage());
-        }
-
+        BowlingController.addPlayerToGame(bowlingGameId, player);
         return Response.created(uriInfo.getAbsolutePath()).build();
     }
 
     @PUT
     @Path("/game/{id}/player/{playerid}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deletePlayerFromGame(@PathParam("id") Integer bowlingGameId, @PathParam("playerid") String playerId) throws BowlingAppException {
-        try {
-            BowlingController.deletePlayerFromGame(bowlingGameId, playerId);
-        } catch (BowlingDaoException e) {
-            throw new BowlingAppException(400, e.getMessage());
-        }
-
+    public Response deletePlayerFromGame(@PathParam("id") Integer bowlingGameId, @PathParam("playerid") String playerId)
+            throws BowlingInvalidDataException, BowlingAppException {
+        BowlingController.deletePlayerFromGame(bowlingGameId, playerId);
         return Response.ok().build();
     }
 
     @PUT
     @Path("/game/{id}/player/{player}/frame/{frameId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addPlayerScore(@PathParam("id") Integer bowlingGameId, @PathParam("player") String player, @PathParam("frameId") Integer frameId) throws BowlingAppException {
+    public Response addPlayerScore(
+            @PathParam("id") Integer bowlingGameId, @PathParam("player") String player, @PathParam("frameId") Integer frameId)
+            throws BowlingInvalidDataException, BowlingAppException {
         String scores = uriInfo.getQueryParameters().getFirst("score");
         String[] playerScores = (scores != null) ? scores.split(",") : null;
         if (playerScores == null) {
-            throw new BowlingAppException(400, "Invalid frame score");
+            throw new BowlingInvalidDataException("Invalid frame score");
         }
         Integer len = playerScores.length;
         Integer[] playerFrame = new Integer[len];
         for (int i = 0; i < len; i++) {
             playerFrame[i] = Integer.parseInt(playerScores[i]);
         }
-        try {
-            BowlingController.addPlayerScore(bowlingGameId, player, frameId, playerFrame);
-        } catch (BowlingDaoException e) {
-            throw new BowlingAppException(400, e.getMessage());
-        }
+        BowlingController.addPlayerScore(bowlingGameId, player, frameId, playerFrame);
         return Response.created(uriInfo.getAbsolutePath()).build();
     }
 
     @GET
     @Path("/game/{id}/livescores")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getLiveScore(@PathParam("id") Integer bowlingGameId) throws BowlingAppException {
+    public Response getLiveScore(@PathParam("id") Integer bowlingGameId)
+            throws BowlingInvalidDataException, BowlingAppException {
         Map<String, Integer> playerScore;
-        try {
-            playerScore = BowlingController.getLiveScoresForGame(bowlingGameId);
-        } catch (BowlingDaoException e) {
-            throw new BowlingAppException(400, e.getMessage());
-        }
+        playerScore = BowlingController.getLiveScoresForGame(bowlingGameId);
         return Response.ok(playerScore).build();
     }
 
@@ -105,12 +91,10 @@ public class BowlingProcessor {
     @Path("/game")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBowlingGame(BowlingGame bowlingGame) throws BowlingAppException {
-        try {
-            BowlingController.updateBowlingGame(bowlingGame);
-        } catch (BowlingDaoException e) {
-            throw new BowlingAppException(400, e.getMessage());
-        }
+    public Response updateBowlingGame(BowlingGame bowlingGame)
+            throws BowlingInvalidDataException, BowlingAppException {
+
+        BowlingController.updateBowlingGame(bowlingGame);
         return Response.noContent().location(uriInfo.getAbsolutePath()).build();
     }
 
@@ -124,35 +108,25 @@ public class BowlingProcessor {
             bowlingId = BowlingController.createGame();
             uri = new URI(uriInfo.getAbsolutePath() + "/" + bowlingId);
         } catch (URISyntaxException e) {
-            throw new BowlingAppException(500, "Error creating game ");
-        } catch (BowlingDaoException e) {
-            throw new BowlingAppException(400, e.getMessage());
-        }
+            throw new BowlingAppException("Internal Error creating game ");
+            }
         return Response.created(uri).link(uri, "created").build();
     }
 
     @GET
     @Path("/game/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBowlingGame(@PathParam("id") Integer id) throws BowlingAppException {
+    public Response getBowlingGame(@PathParam("id") Integer id) throws BowlingInvalidDataException, BowlingAppException {
         BowlingGame bg;
-        try {
-            bg = BowlingController.getGame(id);
-        } catch (BowlingDaoException e) {
-            throw new BowlingAppException(404, e.getMessage());
-        }
+        bg = BowlingController.getGame(id);
         return Response.ok(bg).build();
     }
 
     @DELETE
     @Path("/game/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response removeBowlingGame(@PathParam("id") Integer id) throws BowlingAppException {
-        try {
-            BowlingController.deleteGame(id);
-        } catch (BowlingDaoException e) {
-            throw new BowlingAppException(404, e.getMessage());
-        }
+    public Response removeBowlingGame(@PathParam("id") Integer id) throws BowlingInvalidDataException, BowlingAppException {
+        BowlingController.deleteGame(id);
         return Response.noContent().build();
     }
 }

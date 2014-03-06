@@ -1,31 +1,31 @@
 package org.nick.sample.bowling;
 
-import org.nick.sample.bowling.exception.BowlingAppException;
+import org.nick.sample.bowling.exception.BowlingInvalidDataException;
 
 /**
  * Contains a few helper methods that help with business logic
  */
 public class BowlingHelper {
-    public static void validateFrameId(Integer frameId) throws BowlingAppException {
+    public static void validateFrameId(Integer frameId) throws BowlingInvalidDataException {
         if (frameId < 1 || frameId > 10) {
-            throw new BowlingAppException(400, "Invalid frame id  " + frameId + " provided");
+            throw new BowlingInvalidDataException("Invalid frame id  " + frameId + " provided");
         }
     }
 
-    public static void validateFrame(Integer frameId, Integer[] frame) throws BowlingAppException {
+    public static void validateFrame(Integer frameId, Integer[] frame) throws BowlingInvalidDataException {
         validateFrameId(frameId);
 
         if (frameId < 10 && frame.length > 2) {
-            throw new BowlingAppException(400,"Cannot add more than 2 scores in a frame");
+            throw new BowlingInvalidDataException("Cannot add more than 2 scores in a frame");
         }
         if (frameId == 10 && frame.length > 3) {
-            throw new BowlingAppException(400,"Cannot add more than 3 scores in the 10th frame");
+            throw new BowlingInvalidDataException("Cannot add more than 3 scores in the 10th frame");
         }
         if (frameId < 10 && sumOfFrameScores(frame) > 10) {
-            throw new BowlingAppException(400,"Invalid frame score");
+            throw new BowlingInvalidDataException("Invalid frame score");
         }
         if (frameId == 10 && sumOfFrameScores(frame) > 30) {
-            throw new BowlingAppException(400,"Invalid frame score");
+            throw new BowlingInvalidDataException("Invalid frame score");
         }
     }
 

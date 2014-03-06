@@ -7,14 +7,17 @@ import javax.ws.rs.ext.Provider;
 
 
 @Provider
-public class BowlingAppExceptionMapper implements ExceptionMapper<BowlingAppException> {
+public class BowlingInvalidDataMapper implements ExceptionMapper<BowlingInvalidDataException> {
+
+    public BowlingInvalidDataMapper() {
+    }
 
     @Override
-    public Response toResponse(BowlingAppException serverException) {
+    public Response toResponse(BowlingInvalidDataException invalidDataException) {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setErrorId(400);
-        errorResponse.setErrorDescription(serverException.getMessage());
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+        errorResponse.setErrorDescription(invalidDataException.getMessage());
+        return Response.status(Response.Status.BAD_REQUEST).
                 entity(errorResponse).type(MediaType.APPLICATION_JSON).build();
 
     }
