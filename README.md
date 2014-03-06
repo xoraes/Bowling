@@ -2,6 +2,8 @@ Bowling
 =======
 Live Score Bowling Rest API
 
+This is a set of Rest APIs that allows you to create, update and delete a game, add/remove players to a game, update scores/frame for a particular player in the game, and view aggregate live scores. error code and description is sent back for invalid or unsatisfied requests. json is the data format used. 
+
 Create a bowling game
 curl -v -X POST http://localhost:8080/Bowling/game 
 Location Header as well as the response stream will have the new bowling game uri and id 
