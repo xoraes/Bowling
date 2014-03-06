@@ -38,7 +38,6 @@ public class BowlingProcessor {
 
     @PUT
     @Path("/game/{id}/player")
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response addPlayerToGame(@PathParam("id") Integer bowlingGameId) throws BowlingInvalidDataException, BowlingAppException {
         String player = uriInfo.getQueryParameters().getFirst("username");
         if (null == player) {
@@ -48,9 +47,8 @@ public class BowlingProcessor {
         return Response.created(uriInfo.getAbsolutePath()).build();
     }
 
-    @PUT
+    @DELETE
     @Path("/game/{id}/player/{playerid}")
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response deletePlayerFromGame(@PathParam("id") Integer bowlingGameId, @PathParam("playerid") String playerId)
             throws BowlingInvalidDataException, BowlingAppException {
         BowlingController.deletePlayerFromGame(bowlingGameId, playerId);
@@ -59,7 +57,6 @@ public class BowlingProcessor {
 
     @PUT
     @Path("/game/{id}/player/{player}/frame/{frameId}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response addPlayerScore(
             @PathParam("id") Integer bowlingGameId, @PathParam("player") String player, @PathParam("frameId") Integer frameId)
             throws BowlingInvalidDataException, BowlingAppException {
@@ -90,7 +87,6 @@ public class BowlingProcessor {
     @PUT
     @Path("/game")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response updateBowlingGame(BowlingGame bowlingGame)
             throws BowlingInvalidDataException, BowlingAppException {
 
@@ -110,7 +106,7 @@ public class BowlingProcessor {
         } catch (URISyntaxException e) {
             throw new BowlingAppException("Internal Error creating game ");
             }
-        return Response.ok(uri.toString()).location(uri).build();
+        return Response.ok("{\"link\":" + "\"" + uri.toString() + "\"}").location(uri).build();
     }
 
     @GET
@@ -124,7 +120,6 @@ public class BowlingProcessor {
 
     @DELETE
     @Path("/game/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response removeBowlingGame(@PathParam("id") Integer id) throws BowlingInvalidDataException, BowlingAppException {
         BowlingController.deleteGame(id);
         return Response.noContent().build();
