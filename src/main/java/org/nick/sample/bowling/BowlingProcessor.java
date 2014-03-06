@@ -110,7 +110,7 @@ public class BowlingProcessor {
         } catch (URISyntaxException e) {
             throw new BowlingAppException("Internal Error creating game ");
             }
-        return Response.created(uri).link(uri, "created").build();
+        return Response.ok(uri.toString()).location(uri).build();
     }
 
     @GET

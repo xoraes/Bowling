@@ -100,7 +100,7 @@ public class BowlingController {
      * @return true iff the frame is a strike, else false
      */
     private static boolean isStrike(Integer[] frame) {
-        return (frame != null && frame.length > 1 && frame[0] == 10);
+        return (frame != null && frame.length == 1 && frame[0] == 10);
     }
 
     /**
